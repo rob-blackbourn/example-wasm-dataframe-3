@@ -1,0 +1,16 @@
+{
+  "editor.rulers": [80],
+  "standard.enable": false,
+  "javascript.validate.enable": true,
+  "javascript.implicitProjectConfig.checkJs": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+  },
+  "cSpell.words": [
+    "Wasm",
+    "jetblack",
+    "malloc",
+    "wasi"
+  ],
+}

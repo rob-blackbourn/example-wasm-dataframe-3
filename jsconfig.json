@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "checkJs": true,
+      "target": "ES2020",
+      "module": "es2020",
+      "moduleResolution": "classic"
+    },
+    "exclude": ["node_modules", "**/node_modules/*"]
+}
