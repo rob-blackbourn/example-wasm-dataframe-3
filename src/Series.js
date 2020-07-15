@@ -1,4 +1,4 @@
-import { Wasi } from '@jetblack/wasi-marshalling'
+import { Wasi, FunctionPrototype } from '@jetblack/wasi-marshalling'
 
  /**
  * TypedArray
@@ -10,9 +10,15 @@ import { Wasi } from '@jetblack/wasi-marshalling'
  * @typedef {Int8ArrayConstructor|Int16ArrayConstructor|Int32ArrayConstructor|BigInt64ArrayConstructor|Uint8ArrayConstructor|Uint16ArrayConstructor|Uint32ArrayConstructor|BigUint64ArrayConstructor|Float32ArrayConstructor|Float64ArrayConstructor} TypedArrayType
  */
 
+ /**
+ * WASM Callback
+ * @callback wasmCallback
+ * @param {*} args The function arguments
+ * @returns {*} The return value if any 
+ */
+
 /**
  * A series is a named array
- * @template T
  */
 export class Series {
   /**
@@ -84,6 +90,20 @@ export class Series {
    */
   static init (wasi) {
     Series.wasi = wasi
+  }
+
+  /**
+   * Register a function
+   * @param {string|symbol} name The function name
+   * @param {FunctionPrototype} prototype The function prototype
+   * @param {wasmCallback} callback The wasm callback
+   */
+  static registerFunction (name, prototype, callback) {
+    if (prototype == null) {
+      Series.wasi.functionRegistry.registerUnmarshalled(name, callback)
+    } else {
+      Series.wasi.functionRegistry.registerImplied(name, prototype, callback)
+    }
   }
 
   /**

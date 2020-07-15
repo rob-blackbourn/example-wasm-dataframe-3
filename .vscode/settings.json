@@ -8,10 +8,14 @@
     "editor.tabSize": 2,
   },
   "cSpell.words": [
+    "Finalizers",
     "Unmarshalled",
     "Wasm",
+    "dataframe",
+    "ints",
     "jetblack",
     "malloc",
+    "typeof",
     "wasi"
   ],
 }

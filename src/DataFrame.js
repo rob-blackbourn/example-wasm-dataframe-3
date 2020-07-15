@@ -1,6 +1,14 @@
-import { Wasi } from '@jetblack/wasi-marshalling'
+import { Wasi, FunctionPrototype } from '@jetblack/wasi-marshalling'
 
 import { Series } from './Series'
+
+
+/**
+ * WASM Callback
+ * @callback wasmCallback
+ * @param {*} args The function arguments
+ * @returns {*} The return value if any 
+ */
 
 /**
  * TypedArrayType
@@ -72,6 +80,16 @@ export class DataFrame {
     }
     const seriesList = Object.values(series)
     return new DataFrame(seriesList)
+  }
+
+  /**
+   * Register a function
+   * @param {string|symbol} name The function name
+   * @param {FunctionPrototype} prototype The function prototype
+   * @param {wasmCallback} callback The wasm callback
+   */
+  static registerFunction (name, prototype, callback) {
+    Series.registerFunction(name, prototype, callback)
   }
 
   toString () {
