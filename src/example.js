@@ -1,6 +1,6 @@
 import { Wasi } from '@jetblack/wasi-marshalling'
 
-import { Series } from './Series'
+import { DataFrame } from './DataFrame'
 
 import { exampleUnmarshalled } from './example-unmarshalled'
 import { exampleMarshalled } from './example-marshalled'
@@ -12,7 +12,7 @@ import { exampleMarshalled } from './example-marshalled'
 export function example (wasi) {
   'operator-overloading enabled'
 
-  Series.wasi = wasi
+  DataFrame.init(wasi)
 
   exampleUnmarshalled()
   exampleMarshalled()

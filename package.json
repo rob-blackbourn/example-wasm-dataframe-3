@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir=dist --source-maps",
-    "start": "node dist/main.js"
+    "start": "node --harmony-weak-refs dist/main.js"
   },
   "keywords": [],
   "author": "",

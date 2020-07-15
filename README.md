@@ -2,3 +2,6 @@
 
 This version of a DataFrame implementation adds the ability to share typed
 arrays, between JavaScript and WebAssembly without the need for copying.
+
+## Usage
+

@@ -48,6 +48,14 @@ export class DataFrame {
   }
 
   /**
+   * Initialize the data frame with the marshaller.
+   * @param {Wasi} wasi The WASI marshaller
+   */
+  static init (wasi) {
+    Series.init(wasi)
+  }
+
+  /**
    * Create a data frame from an object
    * @param {Array<object>} data The data
    * @param {object} types The types
@@ -72,7 +80,7 @@ export class DataFrame {
     const maxLength = Object.values(this.series)
       .map(x => x.length)
       .reduce((accumulator, currentValue) => Math.max(accumulator, currentValue), 0)
-    for (let i = 0; i < maxLength; i++) {
+    for (let i = 0; i < maxLength; ++i) {
       const row = []
       for (const column of columns) {
         if (i < this.series[column].length) {

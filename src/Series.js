@@ -79,6 +79,14 @@ export class Series {
   }
 
   /**
+   * Initialize the series with the marshaller.
+   * @param {Wasi} wasi The WASI marshaller
+   */
+  static init (wasi) {
+    Series.wasi = wasi
+  }
+
+  /**
    * Create a series
    * @param {string} name The series name
    * @param {number|Array<any>} lengthOrArray The length or an array
@@ -86,7 +94,7 @@ export class Series {
    * @returns {Series} A new series of the given type
    */
   static from (name, lengthOrArray, arrayType) {
-    const array = arrayType instanceof Array
+    const array = arrayType === Array
       ? (typeof lengthOrArray === 'number' ? new Array(lengthOrArray) : lengthOrArray)
       : this.wasi.memoryManager.createTypedArray(arrayType, lengthOrArray)
     return new Series(name, array)
