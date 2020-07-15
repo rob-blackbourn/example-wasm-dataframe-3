@@ -51,9 +51,8 @@ export class DataFrame {
    * Create a data frame from an object
    * @param {Array<object>} data The data
    * @param {object} types The types
-   * @param {Wasi} wasi The wasi marshaller
    */
-  static fromObject (data, types, wasi) {
+  static fromObject (data, types) {
     const series = {}
     for (let i = 0; i < data.length; i++) {
       for (const column in data[i]) {
