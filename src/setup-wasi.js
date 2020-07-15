@@ -1,12 +1,5 @@
 import fs from 'fs'
-import {
-  Wasi,
-  TypedArrayType,
-  Uint32Type,
-  Float64Type,
-  FunctionPrototype,
-  In
-} from '@jetblack/wasi-marshalling'
+import { Wasi } from '@jetblack/wasi-marshalling'
 
 import { registerUnmarshalledFunctions } from './register-unmarshalled-functions'
 import { registerInt32Functions } from './register-int32-functions'

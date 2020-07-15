@@ -58,11 +58,7 @@ export class DataFrame {
     for (let i = 0; i < data.length; i++) {
       for (const column in data[i]) {
         if (!(column in series)) {
-          const typedArrayType = types[column]
-          const array = typedArrayType === Array
-            ? new Array(data.length)
-            : wasi.memoryManager.createTypedArray(typedArrayType, data.length)
-          series[column] = new Series(column, array, wasi)
+          series[column] = Series.from(column, data.length, types[column])
         }
         series[column][i] = data[i][column]
       }

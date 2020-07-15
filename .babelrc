@@ -6,5 +6,5 @@
         }
       }]
   ],
-  "plugins": ["module:@jetblack/operator-overloading"]
+  "plugins": ["module:@jetblack/operator-overloading", "@babel/plugin-proposal-class-properties"]
 }

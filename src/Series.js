@@ -6,6 +6,11 @@ import { Wasi } from '@jetblack/wasi-marshalling'
  */
 
 /**
+ * TypedArrayType
+ * @typedef {Int8ArrayConstructor|Int16ArrayConstructor|Int32ArrayConstructor|BigInt64ArrayConstructor|Uint8ArrayConstructor|Uint16ArrayConstructor|Uint32ArrayConstructor|BigUint64ArrayConstructor|Float32ArrayConstructor|Float64ArrayConstructor} TypedArrayType
+ */
+
+/**
  * A series is a named array
  * @template T
  */
@@ -14,12 +19,10 @@ export class Series {
    * Construct a series
    * @param {string} name The name of the series
    * @param {Array<any>} array The data array
-   * @param {Wasi} wasi The wasi marshaller
    */
-  constructor (name, array, wasi) {
+  constructor (name, array) {
     this.name = name
     this.array = array
-    this.wasi = wasi
 
     return new Proxy(this, {
       get: Series.proxyGet,
@@ -39,6 +42,11 @@ export class Series {
   }
 
   /**
+   * @property {Wasi} wasi The wasi instance
+   */
+  static wasi = null
+
+  /**
    * 
    * @param {Series} obj The series
    * @param {string|symbol} prop The property to get
@@ -47,11 +55,11 @@ export class Series {
   static proxyGet(obj, prop, receiver) {
     if (prop in obj) {
       return Reflect.get(obj, prop, receiver)
-    } else if (obj.wasi.hasFunction(prop)) {
+    } else if (Series.wasi.hasFunction(prop)) {
       return (...args) => {
         const preparedArgs = args.map(x => x instanceof Series ? x.array : x)
-        const result = obj.wasi.invoke(prop, obj.array, ...preparedArgs, obj.array.length)
-        return new Series('', result, obj.wasi)
+        const result = Series.wasi.invoke(prop, obj.array, ...preparedArgs, obj.array.length)
+        return new Series('', result)
       }
     } else {
       return Reflect.get(obj.array, prop, receiver.array)
@@ -68,6 +76,20 @@ export class Series {
 
   static proxyApply(target, thisArgument, argumentList) {
     return Reflect.apply(target, thisArgument, argumentList)
+  }
+
+  /**
+   * Create a series
+   * @param {string} name The series name
+   * @param {number|Array<any>} lengthOrArray The length or an array
+   * @param {ArrayConstructor|TypedArrayType} arrayType The array type
+   * @returns {Series} A new series of the given type
+   */
+  static from (name, lengthOrArray, arrayType) {
+    const array = arrayType instanceof Array
+      ? (typeof lengthOrArray === 'number' ? new Array(lengthOrArray) : lengthOrArray)
+      : this.wasi.memoryManager.createTypedArray(arrayType, lengthOrArray)
+    return new Series(name, array)
   }
 
   toString () {

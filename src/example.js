@@ -10,20 +10,22 @@ import { DataFrame } from './DataFrame'
 export function example (wasi) {
   'operator-overloading enabled'
 
-  const u1 = new Series('u1', [1, 2, 3, 4], wasi)
-  const u2 = new Series('u2', [5, 6, 7, 8], wasi)
+  Series.wasi = wasi
+
+  const u1 = new Series('u1', [1, 2, 3, 4])
+  const u2 = new Series('u2', [5, 6, 7, 8])
   const u3 = u1 + u2
   console.log(u3.toString())
 
-  const s1 = new Series('s1', wasi.float64Array([1, 2, 3, 4]), wasi)
-  const s2 = new Series('s2', wasi.float64Array([5, 6, 7, 8]), wasi)
+  const s1 = Series.from('s1', [1, 2, 3, 4], Float64Array)
+  const s2 = Series.from('s2', [5, 6, 7, 8], Float64Array)
   const s3 = s1 + s2
   console.log(s3.toString())
 
   const slog = s2.log()
   console.log(slog.toString())
 
-  const height = new Series('height', wasi.float64Array([1.82, 1.72, 1.64, 1.88]), wasi)
+  const height = Series.from('height', [1.82, 1.72, 1.64, 1.88], Float64Array)
   console.log(height.toString())
 
   const minusHeight = -height
@@ -40,13 +42,9 @@ export function example (wasi) {
   // const maxHeight = height.max()
   // console.log(maxHeight.toString())
 
-  const weight = new Series('weight', wasi.float64Array([81.4, 72.3, 69.9, 79.5]), wasi)
+  const weight = Series.from('weight', [81.4, 72.3, 69.9, 79.5], Float64Array)
   const ratio = weight / height
   console.log(ratio.toString())
-
-  // const s4 = new Series('numbers', [1, 2, 3, 4], 'int')
-  // s4.push(5)
-  // console.log(s4.toString())
 
   const df = DataFrame.fromObject(
     [
