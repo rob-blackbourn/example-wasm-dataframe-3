@@ -99,11 +99,7 @@ export class Series {
    * @param {wasmCallback} callback The wasm callback
    */
   static registerFunction (name, prototype, callback) {
-    if (prototype == null) {
-      Series.wasi.functionRegistry.registerUnmarshalled(name, callback)
-    } else {
-      Series.wasi.functionRegistry.registerImplied(name, prototype, callback)
-    }
+    Series.wasi.registerFunction(name, prototype, callback)
   }
 
   /**
